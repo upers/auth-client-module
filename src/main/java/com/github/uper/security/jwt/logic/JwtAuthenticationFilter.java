@@ -1,10 +1,8 @@
-package com.vareger.security.jwt.logic;
+package com.github.uper.security.jwt.logic;
 
-import com.vareger.security.jwt.dto.JwtUserDetails;
-import org.springframework.security.authentication.AuthenticationManager;
+import com.github.uper.security.jwt.dto.JwtUserDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.OncePerRequestFilter;

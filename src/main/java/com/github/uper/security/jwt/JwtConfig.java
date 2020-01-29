@@ -1,9 +1,10 @@
-package com.vareger.security.jwt;
+package com.github.uper.security.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.security.KeyFactory;
@@ -14,9 +15,10 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 @Configuration
+@ComponentScan("com.github.uper.security.jwt")
 public class JwtConfig {
 
-    @Value("${vareger.security.pub}")
+    @Value("${security.pub}")
     private String pubKey;
 
     @Bean(name = "jwtPublicAlgorithm")

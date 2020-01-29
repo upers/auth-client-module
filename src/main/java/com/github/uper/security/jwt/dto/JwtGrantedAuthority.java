@@ -1,4 +1,4 @@
-package com.vareger.security.jwt.dto;
+package com.github.uper.security.jwt.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

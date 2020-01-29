@@ -1,9 +1,9 @@
-package com.vareger.security.jwt.logic;
+package com.github.uper.security.jwt.logic;
 
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vareger.security.jwt.dto.SecurityErrorDto;
+import com.github.uper.security.jwt.dto.SecurityErrorDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;

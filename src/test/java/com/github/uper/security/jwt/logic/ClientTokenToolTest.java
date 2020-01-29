@@ -1,12 +1,12 @@
-package com.vareger.security.jwt.logic;
+package com.github.uper.security.jwt.logic;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vareger.security.jwt.dto.JwtGrantedAuthority;
-import com.vareger.security.jwt.dto.JwtUserDetails;
+import com.github.uper.security.jwt.dto.JwtGrantedAuthority;
+import com.github.uper.security.jwt.dto.JwtUserDetails;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

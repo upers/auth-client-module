@@ -1,4 +1,4 @@
-package com.vareger.security.jwt.dto;
+package com.github.uper.security.jwt.dto;
 
 import org.springframework.security.core.userdetails.User;
 

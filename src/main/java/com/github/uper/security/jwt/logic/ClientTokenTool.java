@@ -1,11 +1,10 @@
-package com.vareger.security.jwt.logic;
+package com.github.uper.security.jwt.logic;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vareger.security.jwt.dto.JwtUserDetails;
+import com.github.uper.security.jwt.dto.JwtUserDetails;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class ClientTokenTool {
     protected final JWTVerifier jwtVerifier;
 
     @Autowired
-    public ClientTokenTool(@Value("${vareger.security.access.token.prefix}") String accessTokenPrefix,
+    public ClientTokenTool(@Value("${security.access.token.prefix}") String accessTokenPrefix,
                            @Qualifier("jwtPublicAlgorithm") Algorithm algorithm,
                            @Qualifier("jwtObjectMapper") ObjectMapper mapper) {
         this.accessTokenPrefix = accessTokenPrefix;

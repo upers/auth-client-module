@@ -1,4 +1,4 @@
-package com.vareger.security.jwt.logic;
+package com.github.uper.security.jwt.logic;
 
 import java.io.File;
 import java.io.IOException;

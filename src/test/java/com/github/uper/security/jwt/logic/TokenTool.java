@@ -1,12 +1,12 @@
-package com.vareger.security.jwt.logic;
+package com.github.uper.security.jwt.logic;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vareger.security.jwt.dto.JwtRefreshUserDetails;
-import com.vareger.security.jwt.dto.JwtUserDetails;
-import com.vareger.security.jwt.dto.TokenDto;
+import com.github.uper.security.jwt.dto.JwtRefreshUserDetails;
+import com.github.uper.security.jwt.dto.JwtUserDetails;
+import com.github.uper.security.jwt.dto.TokenDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
