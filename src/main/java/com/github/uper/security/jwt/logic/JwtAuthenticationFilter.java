@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             ServletContext servletContext = request.getServletContext();
             WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(
                     servletContext);
-            tokenTool = webApplicationContext.getBean(ClientTokenTool.class);
+            tokenTool = webApplicationContext.getBean("clientTokenTool", ClientTokenTool.class);
             isInit = true;
         }
     }

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@Component
+@Component("clientTokenTool")
 public class ClientTokenTool {
 
     private static final Logger log = LogManager.getLogger(ClientTokenTool.class);
