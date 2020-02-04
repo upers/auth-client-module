@@ -29,8 +29,10 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (TokenExpiredException | UsernameNotFoundException | BadCredentialsException | SignatureVerificationException e) {
+            logger.debug(e.getMessage(), e);
             sendResponse(request, response, HttpStatus.UNAUTHORIZED, e.getMessage());
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             sendResponse(request, response, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
