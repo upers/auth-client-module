@@ -25,27 +25,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws IOException,
             ServletException {
         init(req);
-        try {
-            JwtUserDetails user = tokenTool.getAccessToken(req);
+        JwtUserDetails user = tokenTool.getAccessToken(req);
 
-            SecurityContextHolder.getContext()
-                                 .setAuthentication(new UsernamePasswordAuthenticationToken(user, "", user
-                                         .getAuthorities()));
+        SecurityContextHolder.getContext()
+                             .setAuthentication(new UsernamePasswordAuthenticationToken(user, "", user
+                                     .getAuthorities()));
 
-            chain.doFilter(req, res);
-        } catch (Exception e) {
-            logger.debug(e.getMessage(), e);
-            throw e;
-        }
+        chain.doFilter(req, res);
+
     }
 
     protected void init(HttpServletRequest request) {
         if (!isInit) {
-            ServletContext servletContext = request.getServletContext();
-            WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(
-                    servletContext);
-            tokenTool = webApplicationContext.getBean("clientTokenTool", ClientTokenTool.class);
-            isInit = true;
+            synchronized (this) {
+                if (isInit)
+                    return;
+
+                ServletContext servletContext = request.getServletContext();
+                WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(
+                        servletContext);
+                tokenTool = webApplicationContext.getBean("clientTokenTool", ClientTokenTool.class);
+                isInit = true;
+            }
         }
     }
 
