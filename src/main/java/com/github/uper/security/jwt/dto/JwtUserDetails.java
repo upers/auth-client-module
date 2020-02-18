@@ -8,19 +8,23 @@ import java.util.stream.Collectors;
 
 public class JwtUserDetails {
 
-    private String username;
+    protected String username;
 
-    private Set<JwtGrantedAuthority> authorities;
+    protected Set<JwtGrantedAuthority> authorities;
 
-    private boolean accountNonExpired;
+    protected boolean accountNonExpired;
 
-    private boolean accountNonLocked;
+    protected boolean accountNonLocked;
 
-    private boolean credentialsNonExpired;
+    protected boolean credentialsNonExpired;
 
-    private boolean enabled;
+    protected boolean enabled;
 
-    private String salt;
+    protected String salt;
+
+    protected Integer edrpouCode;
+
+    protected Long drfoCode;
 
     public JwtUserDetails() {
     }
@@ -97,5 +101,21 @@ public class JwtUserDetails {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public Integer getEdrpouCode() {
+        return edrpouCode;
+    }
+
+    public void setEdrpouCode(Integer edrpouCode) {
+        this.edrpouCode = edrpouCode;
+    }
+
+    public Long getDrfoCode() {
+        return drfoCode;
+    }
+
+    public void setDrfoCode(Long drfoCode) {
+        this.drfoCode = drfoCode;
     }
 }

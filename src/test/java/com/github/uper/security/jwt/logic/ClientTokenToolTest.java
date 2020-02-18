@@ -91,9 +91,6 @@ public class ClientTokenToolTest {
 
     @Test(expected = BadCredentialsException.class)
     public void nonAuthHeader() throws JsonProcessingException {
-        User admin = buildUser("admin", "read", "write");
-        String accessToken = tokenTool.createAccessToken(admin);
-
         HttpServletRequest accessRequest = Mockito.mock(HttpServletRequest.class);
         when(accessRequest.getHeader(HttpHeaders.AUTHORIZATION))
                 .thenReturn(null);
