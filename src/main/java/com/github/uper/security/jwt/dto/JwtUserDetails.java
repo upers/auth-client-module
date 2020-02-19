@@ -42,13 +42,6 @@ public class JwtUserDetails {
         this.salt = UUID.randomUUID().toString();
     }
 
-    @Override
-    public String toString() {
-        return "JWTUserDetails [username=" + username + ", authorities=" + authorities + ", accountNonExpired="
-                + accountNonExpired + ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired="
-                + credentialsNonExpired + ", enabled=" + enabled + "]";
-    }
-
     public String getUsername() {
         return username;
     }
@@ -127,5 +120,19 @@ public class JwtUserDetails {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    @Override public String toString() {
+        return "JwtUserDetails{" +
+                "userType='" + userType + '\'' +
+                ", username='" + username + '\'' +
+                ", accountNonExpired=" + accountNonExpired +
+                ", accountNonLocked=" + accountNonLocked +
+                ", credentialsNonExpired=" + credentialsNonExpired +
+                ", enabled=" + enabled +
+                ", salt='" + salt + '\'' +
+                ", edrpouCode=" + edrpouCode +
+                ", drfoCode=" + drfoCode +
+                '}';
     }
 }
