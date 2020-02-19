@@ -57,11 +57,16 @@ public class ClientTokenToolTest {
         algorithm = encryptAlgorithm(prKey, pubKey);
         publicAlgorithm = publicEncryptAlgorithm(pubKey);
 
+        var idGovUaProperty = new IdGovUaProperty();
+        idGovUaProperty.setLoginUrl("/gov-ua/login");
+        idGovUaProperty.setLoginCodeParamName("code");
+
         clientTokenTool = new ClientTokenTool(accessTokenPrefix, publicAlgorithm, new ObjectMapper());
         tokenTool = new TokenTool(accessTokenPrefix,
                 refreshTokenPrefix,
                 accessTokenExpirationTime,
                 refreshTokenExpirationTime,
+                idGovUaProperty,
                 algorithm,
                 new ObjectMapper());
     }
@@ -70,7 +75,7 @@ public class ClientTokenToolTest {
     @Test
     public void validToken() throws JsonProcessingException {
         User admin = buildUser("admin", "read", "write");
-        String accessToken = tokenTool.createAccessToken(admin);
+        String accessToken = tokenTool.createAccessToken(admin, "user");
 
         HttpServletRequest accessRequest = Mockito.mock(HttpServletRequest.class);
         when(accessRequest.getHeader(HttpHeaders.AUTHORIZATION))
@@ -100,15 +105,20 @@ public class ClientTokenToolTest {
 
     @Test(expected = TokenExpiredException.class)
     public void expiredToken() throws JsonProcessingException {
+        var idGovUaProperty = new IdGovUaProperty();
+        idGovUaProperty.setLoginUrl("/gov-ua/login");
+        idGovUaProperty.setLoginCodeParamName("code");
+
         TokenTool tokenTool = new TokenTool(accessTokenPrefix,
                 refreshTokenPrefix,
                 1l,
                 refreshTokenExpirationTime,
+                idGovUaProperty,
                 algorithm,
                 new ObjectMapper());
 
         User admin = buildUser("admin", "read", "write");
-        String accessToken = tokenTool.createAccessToken(admin);
+        String accessToken = tokenTool.createAccessToken(admin, "user");
 
         HttpServletRequest accessRequest = Mockito.mock(HttpServletRequest.class);
         when(accessRequest.getHeader(HttpHeaders.AUTHORIZATION))
@@ -121,7 +131,7 @@ public class ClientTokenToolTest {
     @Test(expected = SignatureVerificationException.class)
     public void wrongPubKey() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
         User admin = buildUser("admin", "read", "write");
-        String accessToken = tokenTool.createAccessToken(admin);
+        String accessToken = tokenTool.createAccessToken(admin, "user");
 
         HttpServletRequest accessRequest = Mockito.mock(HttpServletRequest.class);
         when(accessRequest.getHeader(HttpHeaders.AUTHORIZATION))

@@ -28,14 +28,13 @@ public class TokenTool extends ClientTokenTool {
 
     private static final Logger log = LogManager.getLogger(TokenTool.class);
 
-    @Value("${security.refresh.token.prefix}")
     private final String refreshTokenPrefix;
 
-    @Value("${security.access.token.expiration}")
     private final Long accessTokenExpirationTime;
 
-    @Value("${security.refresh.token.expiration}")
     private final Long refreshTokenExpirationTime;
+
+    private final String authCodeParamName;
 
     private final Algorithm algorithm;
 
@@ -44,6 +43,7 @@ public class TokenTool extends ClientTokenTool {
             @Value("${security.refresh.token.prefix}") String refreshTokenPrefix,
             @Value("${security.access.token.expiration}") Long accessTokenExpirationTime,
             @Value("${security.refresh.token.expiration}") Long refreshTokenExpirationTime,
+            IdGovUaProperty idGovUaProperty,
             @Qualifier("jwtPrivateAlgorithm") Algorithm algorithm,
             @Qualifier("jwtObjectMapper") ObjectMapper mapper) {
         super(accessTokenPrefix, algorithm, mapper);
@@ -51,17 +51,32 @@ public class TokenTool extends ClientTokenTool {
         this.refreshTokenPrefix = refreshTokenPrefix;
         this.accessTokenExpirationTime = accessTokenExpirationTime;
         this.refreshTokenExpirationTime = refreshTokenExpirationTime;
+        this.authCodeParamName = idGovUaProperty.getLoginCodeParamName();
     }
 
-    public String createAccessToken(User user) throws JsonProcessingException {
-        String accessTokenPayload = mapper.writeValueAsString(new JwtUserDetails(user));
+    public String createAccessToken(JwtUserDetails jwtUserDetails) throws JsonProcessingException {
+        String accessTokenPayload = mapper.writeValueAsString(jwtUserDetails);
         return accessTokenPrefix + JWT.create().withSubject(accessTokenPayload)
                                       .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpirationTime))
                                       .sign(algorithm);
     }
 
-    public String createRefreshToken(User user) throws JsonProcessingException {
-        String refreshTokenPayload = mapper.writeValueAsString(new JwtRefreshUserDetails(user));
+    public String createAccessToken(User user, String userType) throws JsonProcessingException {
+        var jwtUserDetails = new JwtUserDetails(user);
+        jwtUserDetails.setUserType(userType);
+
+        return createAccessToken(jwtUserDetails);
+    }
+
+    public String createRefreshToken(User user, String userType) throws JsonProcessingException {
+        var jwtRefreshUserDetails = new JwtRefreshUserDetails(user);
+        jwtRefreshUserDetails.setUserType(userType);
+
+        return createRefreshToken(jwtRefreshUserDetails);
+    }
+
+    public String createRefreshToken(JwtRefreshUserDetails jwtRefreshUserDetails) throws JsonProcessingException {
+        String refreshTokenPayload = mapper.writeValueAsString(jwtRefreshUserDetails);
 
         return refreshTokenPrefix + JWT.create().withSubject(refreshTokenPayload)
                                        .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpirationTime))
@@ -71,6 +86,7 @@ public class TokenTool extends ClientTokenTool {
 
     /**
      * Map refresh token from request header "Authorization".
+     *
      * @param request {@link HttpServletRequest}
      * @return {@link JwtRefreshUserDetails}
      */
@@ -78,25 +94,36 @@ public class TokenTool extends ClientTokenTool {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (token == null)
-            throw new BadCredentialsException(HttpHeaders.AUTHORIZATION + "not found.");
+            throw new BadCredentialsException("Token not found");
         if (!token.startsWith(refreshTokenPrefix))
-            throw new BadCredentialsException("Invalid type of " + HttpHeaders.AUTHORIZATION + " header. Got " + token);
+            throw new BadCredentialsException("Token prefix is not correct");
 
-        if (token != null) {
-            // parse the token.
-            String payload = JWT.require(algorithm).build()
-                                .verify(token.replace(refreshTokenPrefix, "")).getSubject();
+        // parse the token.
+        String payload = jwtVerifier
+                .verify(token.replace(refreshTokenPrefix, "")).getSubject();
 
-            try {
-                return mapper.readValue(payload, JwtRefreshUserDetails.class);
-            } catch (IOException e) {
-                log.error(e.getMessage());
-            }
+        try {
+            return mapper.readValue(payload, JwtRefreshUserDetails.class);
+        } catch (IOException e) {
+            log.error(e.getMessage());
         }
 
         return null;
     }
 
+    /**
+     * Retrieve authentication code from  {@link HttpServletRequest} parameter.
+     * If doesn't find parameter throw {@link BadCredentialsException}
+     * @param request {@link HttpServletRequest}
+     * @return auth code
+     */
+    public String getAuthCode(HttpServletRequest request) {
+        String code = request.getParameter(authCodeParamName);
+        if (code == null)
+            throw new BadCredentialsException("Code not found");
+
+        return code;
+    }
     /**
      * Send token to client by using {@link HttpServletResponse#getOutputStream()}. </br>
      * Token object is: {@link TokenDto}

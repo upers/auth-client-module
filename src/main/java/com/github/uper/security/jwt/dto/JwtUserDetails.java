@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 public class JwtUserDetails {
 
+    protected String userType;
+
     protected String username;
 
     protected Set<JwtGrantedAuthority> authorities;
@@ -117,5 +119,13 @@ public class JwtUserDetails {
 
     public void setDrfoCode(Long drfoCode) {
         this.drfoCode = drfoCode;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }
