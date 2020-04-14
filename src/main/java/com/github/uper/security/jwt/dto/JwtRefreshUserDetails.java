@@ -1,9 +1,11 @@
 package com.github.uper.security.jwt.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JwtRefreshUserDetails extends JwtUserDetails {
 
     private String refreshTokenSalt;

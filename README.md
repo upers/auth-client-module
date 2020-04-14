@@ -7,6 +7,6 @@ Java 8:
 	<dependency>
 		<groupId>io.github.upers</groupId>
 		<artifactId>auth-client-module</artifactId>
-		<version>1.1.2</version>
+		<version>1.1.6</version>
 	</dependency>
 ```

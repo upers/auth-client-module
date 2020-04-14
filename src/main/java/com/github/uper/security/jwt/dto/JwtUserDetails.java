@@ -1,12 +1,16 @@
 package com.github.uper.security.jwt.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JwtUserDetails {
+
+    protected Long expertId;
 
     protected String userType;
 
@@ -122,10 +126,20 @@ public class JwtUserDetails {
         this.userType = userType;
     }
 
+    public Long getExpertId() {
+        return expertId;
+    }
+
+    public void setExpertId(Long expertId) {
+        this.expertId = expertId;
+    }
+
     @Override public String toString() {
         return "JwtUserDetails{" +
-                "userType='" + userType + '\'' +
+                "expertId=" + expertId +
+                ", userType='" + userType + '\'' +
                 ", username='" + username + '\'' +
+                ", authorities=" + authorities +
                 ", accountNonExpired=" + accountNonExpired +
                 ", accountNonLocked=" + accountNonLocked +
                 ", credentialsNonExpired=" + credentialsNonExpired +
