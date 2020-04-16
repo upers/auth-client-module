@@ -132,7 +132,7 @@ public class TokenTool extends ClientTokenTool {
      */
     public void sendTokensToUser(HttpServletResponse res, String accessToken, String refreshToken) throws IOException {
         res.addHeader(HttpHeaders.AUTHORIZATION, accessToken);
-        res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         res.setStatus(HttpStatus.OK.value());
         mapper.writeValue(res.getOutputStream(), new TokenDto(accessToken, refreshToken));
     }

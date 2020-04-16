@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
     private final ObjectMapper objectMapper;
@@ -42,7 +44,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         SecurityErrorDto errorMsgDto = new SecurityErrorDto(httpStatus, exMsg, request.getRequestURI());
         String msg = objectMapper.writeValueAsString(errorMsgDto);
         response.setStatus(httpStatus.value());
-        response.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+        response.addHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE);
         response.getWriter().write(msg);
         response.flushBuffer();
     }
