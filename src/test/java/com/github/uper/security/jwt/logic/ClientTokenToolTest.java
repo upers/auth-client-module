@@ -75,14 +75,14 @@ public class ClientTokenToolTest {
     @Test
     public void validToken() throws JsonProcessingException {
         User admin = buildUser("admin", "read", "write");
-        String accessToken = tokenTool.createAccessToken(admin, "user");
+        String accessToken = tokenTool.createAccessToken(admin);
 
         HttpServletRequest accessRequest = Mockito.mock(HttpServletRequest.class);
         when(accessRequest.getHeader(HttpHeaders.AUTHORIZATION))
                 .thenReturn(accessTokenPrefix + accessToken);
 
         JwtUserDetails jwtUserDetails = clientTokenTool.getAccessToken(accessRequest);
-        String userName = jwtUserDetails.getUsername();
+        String userName = jwtUserDetails.getEmail();
         Set<String> authorities = jwtUserDetails.getAuthorities()
                                                 .stream()
                                                 .map(JwtGrantedAuthority::getAuthority)
@@ -118,7 +118,7 @@ public class ClientTokenToolTest {
                 new ObjectMapper());
 
         User admin = buildUser("admin", "read", "write");
-        String accessToken = tokenTool.createAccessToken(admin, "user");
+        String accessToken = tokenTool.createAccessToken(admin);
 
         HttpServletRequest accessRequest = Mockito.mock(HttpServletRequest.class);
         when(accessRequest.getHeader(HttpHeaders.AUTHORIZATION))
@@ -131,7 +131,7 @@ public class ClientTokenToolTest {
     @Test(expected = SignatureVerificationException.class)
     public void wrongPubKey() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
         User admin = buildUser("admin", "read", "write");
-        String accessToken = tokenTool.createAccessToken(admin, "user");
+        String accessToken = tokenTool.createAccessToken(admin);
 
         HttpServletRequest accessRequest = Mockito.mock(HttpServletRequest.class);
         when(accessRequest.getHeader(HttpHeaders.AUTHORIZATION))

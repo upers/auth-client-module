@@ -61,16 +61,14 @@ public class TokenTool extends ClientTokenTool {
                                       .sign(algorithm);
     }
 
-    public String createAccessToken(User user, String userType) throws JsonProcessingException {
+    public String createAccessToken(User user) throws JsonProcessingException {
         var jwtUserDetails = new JwtUserDetails(user);
-        jwtUserDetails.setUserType(userType);
 
         return createAccessToken(jwtUserDetails);
     }
 
-    public String createRefreshToken(User user, String userType) throws JsonProcessingException {
+    public String createRefreshToken(User user) throws JsonProcessingException {
         var jwtRefreshUserDetails = new JwtRefreshUserDetails(user);
-        jwtRefreshUserDetails.setUserType(userType);
 
         return createRefreshToken(jwtRefreshUserDetails);
     }

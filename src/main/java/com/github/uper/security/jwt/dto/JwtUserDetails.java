@@ -10,11 +10,9 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JwtUserDetails {
 
-    protected Long expertId;
+    protected Long id;
 
-    protected String userType;
-
-    protected String username;
+    protected String email;
 
     protected Set<JwtGrantedAuthority> authorities;
 
@@ -30,13 +28,15 @@ public class JwtUserDetails {
 
     protected Integer edrpouCode;
 
-    protected Long drfoCode;
+    protected String identity;
+
+    protected Integer identityType;
 
     public JwtUserDetails() {
     }
 
     public JwtUserDetails(User user) {
-        this.username = user.getUsername();
+        this.email = user.getUsername();
         this.accountNonExpired = user.isAccountNonExpired();
         this.accountNonLocked = user.isAccountNonLocked();
         this.credentialsNonExpired = user.isCredentialsNonExpired();
@@ -46,12 +46,12 @@ public class JwtUserDetails {
         this.salt = UUID.randomUUID().toString();
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<JwtGrantedAuthority> getAuthorities() {
@@ -110,35 +110,34 @@ public class JwtUserDetails {
         this.edrpouCode = edrpouCode;
     }
 
-    public Long getDrfoCode() {
-        return drfoCode;
+    public String getIdentity() {
+        return identity;
     }
 
-    public void setDrfoCode(Long drfoCode) {
-        this.drfoCode = drfoCode;
+    public void setIdentity(String identity) {
+        this.identity = identity;
     }
 
-    public String getUserType() {
-        return userType;
+    public Integer getIdentityType() {
+        return identityType;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setIdentityType(Integer identityType) {
+        this.identityType = identityType;
     }
 
-    public Long getExpertId() {
-        return expertId;
+    public Long getId() {
+        return id;
     }
 
-    public void setExpertId(Long expertId) {
-        this.expertId = expertId;
+    public void setId(Long expertId) {
+        this.id = expertId;
     }
 
     @Override public String toString() {
         return "JwtUserDetails{" +
-                "expertId=" + expertId +
-                ", userType='" + userType + '\'' +
-                ", username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + email + '\'' +
                 ", authorities=" + authorities +
                 ", accountNonExpired=" + accountNonExpired +
                 ", accountNonLocked=" + accountNonLocked +
@@ -146,7 +145,8 @@ public class JwtUserDetails {
                 ", enabled=" + enabled +
                 ", salt='" + salt + '\'' +
                 ", edrpouCode=" + edrpouCode +
-                ", drfoCode=" + drfoCode +
+                ", identity=" + identity +
+                ", identityType=" + identityType +
                 '}';
     }
 }

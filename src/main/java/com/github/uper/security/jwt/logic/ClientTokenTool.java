@@ -42,7 +42,7 @@ public class ClientTokenTool {
      * Map access token from request header "Authorization".
      *
      * @param request {@link HttpServletRequest}
-     * @return
+     * @return {@link JwtUserDetails}
      */
     public JwtUserDetails getAccessToken(HttpServletRequest request) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
