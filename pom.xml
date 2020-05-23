@@ -6,7 +6,7 @@
 
     <groupId>com.github.upers</groupId>
     <artifactId>auth-client-module</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <name>auth-client-module</name>
 
     <parent>

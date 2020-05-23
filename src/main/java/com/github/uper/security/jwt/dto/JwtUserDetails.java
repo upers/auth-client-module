@@ -26,7 +26,7 @@ public class JwtUserDetails {
 
     protected String salt;
 
-    protected Integer edrpouCode;
+    protected JwtOrganizationDetails organization;
 
     protected String identity;
 
@@ -102,12 +102,12 @@ public class JwtUserDetails {
         this.salt = salt;
     }
 
-    public Integer getEdrpouCode() {
-        return edrpouCode;
+    public JwtOrganizationDetails getOrganization() {
+        return organization;
     }
 
-    public void setEdrpouCode(Integer edrpouCode) {
-        this.edrpouCode = edrpouCode;
+    public void setOrganization(JwtOrganizationDetails organization) {
+        this.organization = organization;
     }
 
     public String getIdentity() {
@@ -144,7 +144,6 @@ public class JwtUserDetails {
                 ", credentialsNonExpired=" + credentialsNonExpired +
                 ", enabled=" + enabled +
                 ", salt='" + salt + '\'' +
-                ", edrpouCode=" + edrpouCode +
                 ", identity=" + identity +
                 ", identityType=" + identityType +
                 '}';
